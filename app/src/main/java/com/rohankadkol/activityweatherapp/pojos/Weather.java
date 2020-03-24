@@ -1,5 +1,19 @@
 package com.rohankadkol.activityweatherapp.pojos;
 
 public class Weather {
-    // TODO: Write the three parameters
+    private String main;
+    private String description;
+
+    public Weather(String main, String description) {
+        this.main = main;
+        this.description = description;
+    }
+
+    public String getMain() {
+        return main;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

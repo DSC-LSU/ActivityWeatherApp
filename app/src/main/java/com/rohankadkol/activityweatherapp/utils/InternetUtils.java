@@ -22,7 +22,7 @@ public final class InternetUtils {
     private static final String TAG = InternetUtils.class.getSimpleName();
     // TODO: Enter API KEY here
     private static final String API_KEY = "";
-    private static final String SCHEME = "http";
+    private static final String SCHEME = "https";
     private static final String AUTHORITY = "api.openweathermap.org";
 
     private static final String KEY_LOCATION = "q";
@@ -81,7 +81,22 @@ public final class InternetUtils {
      */
     public static WeatherResponse extractWeatherFromJson(String jsonResponse) {
         // TODO: Parse the JSON response to retrieve a WeatherResponse object
-        return null;
+        WeatherResponse weatherResponse = null;
+        try {
+            JSONObject root = new JSONObject(jsonResponse);
+            JSONObject main = root.getJSONObject("main");
+            double temp = main.getDouble("temp");
+            double tempMin = main.getDouble("temp_min");
+            double tempMax = main.getDouble("temp_max");
+            JSONArray weatherList = root.getJSONArray("weather");
+            JSONObject weather = weatherList.getJSONObject(0);
+            String mainString = weather.getString("main");
+            String descriptionString = weather.getString("description");
+            weatherResponse = new WeatherResponse(temp, tempMin, tempMax, mainString, descriptionString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return weatherResponse;
     }
 
     public static Uri makeRequestUri (String location) {
